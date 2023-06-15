@@ -1,13 +1,16 @@
 import { Sequelize } from 'sequelize';
-import { initUser } from './Models/User';
-
-const sequelize = new Sequelize('Nodejs','postgres','Tiwana0111', {
-    host: 'localhost',
-    dialect: 'postgres',
+const sequelize = new Sequelize('Nodejs', 'postgres', 'Tiwana0111', {
+  host: 'localhost',
+  dialect: 'postgres',
 });
 
-const db = {
-  User: initUser(sequelize),
-};
+sequelize
+  .sync()
+  .then(() => {
+    console.log('Database connection established successfully!!!!');
+  })
+  .catch((error) => {
+    console.error('Error connecting to database:', error);
+  });
 
-export { sequelize, db };
+export default sequelize;
