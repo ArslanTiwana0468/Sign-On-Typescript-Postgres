@@ -1,24 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response, NextFunction, Router } from 'express';
-import { deleteSession } from '../Sessions/Create';
-import User from '../Models/User';
+import { Request, Response } from 'express';
+import { deleteSession } from '../Utils/session';
+import User from '../models/User';
 import { FindOptions } from 'sequelize';
 
-export const router: Router = Router();
-function isLoggedIn(req: Request, res: Response, next: NextFunction): void {
-  const value = (req.session as any).passport;
-  if (value) {
-    next();
-  } else {
-    res.sendStatus(401);
-  }
-}
-
-router.get('/profile', isLoggedIn, async (req: Request, res: Response) => {
+export async function viewProfile(req: Request, res: Response): Promise<any> {
   res.render('profile', { displayName: (req.user as any).displayName }); // Render 'profile.ejs' view with the display name
-
-});
-router.get('/logout', (req: Request, res: Response) => {
+}
+export async function logout(req: Request, res: Response): Promise<any> {
   req.session.destroy((error) => {
     if (error) {
       console.error('Error destroying session:', error);
@@ -28,11 +17,11 @@ router.get('/logout', (req: Request, res: Response) => {
       res.render('logout'); // Render 'logout.ejs' view
     }
   });
-});
+}
 function findOneUser(options: FindOptions): Promise<any | null> {
   return User.findOne(options);
 }
-export async function  createUser(profile: any): Promise<void> {
+export async function createUser(profile: any): Promise<void> {
   const userr = await findOneUser({ where: { gid: profile.id } });
   console.log(userr);
   if (!userr) {
@@ -45,5 +34,3 @@ export async function  createUser(profile: any): Promise<void> {
     console.log('Already exists');
   }
 }
-
-export default { router, createUser };

@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../database';
+import sequelize from '../config/database';
 const User = sequelize.define('user', {
   gid: {
     type: DataTypes.STRING,
@@ -11,7 +11,7 @@ const User = sequelize.define('user', {
     type: DataTypes.STRING,
   },
 });
-User.sync().then(() => {
-  console.log('User table created');
+User.sync({ alter: true }).then(() => {
+  console.log('User altered created');
 });
 export default User;

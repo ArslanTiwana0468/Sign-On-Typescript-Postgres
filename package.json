@@ -14,11 +14,12 @@
     "pg": "^8.11.0",
     "pg-promise": "^11.5.0",
     "sequelize": "^6.32.0",
+    "sequelize-cli": "^6.6.1",
     "ts-node": "^10.9.1"
   },
   "scripts": {
     "start": "nodemon --exec tsc-watch -- --onSuccess \"node dist/index.js\"",
-    "dev": "concurrently \"tsc -w\" \"nodemon dist/src/index.js\"",
+    "dev": "concurrently \"tsc -w\" \"nodemon src/index.ts\"",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"**/*.ts\""
