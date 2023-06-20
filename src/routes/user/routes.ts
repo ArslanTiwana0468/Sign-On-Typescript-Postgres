@@ -1,5 +1,5 @@
 import Express from 'express';
-import { logout, viewProfile } from '../../controllers/user';
+import { logout, viewProfile } from '../../controllers/user/user';
 import { sessionAuth } from '../../middlewares/sessionAuth';
 const route = Express.Router();
 route.get('/profile', sessionAuth, viewProfile);

@@ -8,7 +8,7 @@ import { googleAuthConfig } from '../config/googleAuth';
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'Nodejs',
+  database: 'demo',
   password: 'Tiwana0111',
   port: 5432,
 });
@@ -51,9 +51,7 @@ export const sessionCreation = (app: Express): void => {
       const currentDate = new Date();
 
       // Execute the query to delete expired sessions
-      const result = await pool.query('DELETE FROM session WHERE expire < $1', [
-        currentDate,
-      ]);
+      const result = await pool.query('DELETE FROM session WHERE expire < $1', [currentDate]);
 
       console.log(`Deleted ${result.rowCount} expired sessions.`);
     } catch (error) {

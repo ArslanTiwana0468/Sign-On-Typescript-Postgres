@@ -5,6 +5,7 @@
     "@types/passport": "^1.0.12",
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/pg": "^8.10.2",
+    "body-parser": "^1.20.2",
     "connect-pg-simple": "^9.0.0",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
@@ -15,7 +16,8 @@
     "pg-promise": "^11.5.0",
     "sequelize": "^6.32.0",
     "sequelize-cli": "^6.6.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "start": "nodemon --exec tsc-watch -- --onSuccess \"node dist/index.js\"",
@@ -28,6 +30,7 @@
     "@types/connect-pg-simple": "^7.0.0",
     "@types/express": "^4.17.17",
     "@types/node": "^20.3.1",
+    "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "concurrently": "^8.2.0",
