@@ -2,27 +2,15 @@ import { Express } from 'express';
 import passport from 'passport';
 import session from 'express-session';
 import PgSession from 'connect-pg-simple';
-import { Pool } from 'pg';
 import { googleAuthConfig } from '../config/googleAuth';
-// PostgreSQL connection pool
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'demo',
-  password: 'Tiwana0111',
-  port: 5432,
-});
-
+import { pool } from '../database/models/index';
 export const sessionCreation = (app: Express): void => {
-  // Create an instance of the PostgreSQL session store
   const pgSession = PgSession(session);
 
   const sessionStore = new pgSession({
     pool,
     tableName: 'session',
   });
-
-  // Express session middleware
   app.use(
     session({
       secret: 'your_session_secret',
@@ -34,7 +22,6 @@ export const sessionCreation = (app: Express): void => {
       },
     })
   );
-
   app.use(passport.initialize());
   app.use(passport.session());
   googleAuthConfig(passport);

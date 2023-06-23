@@ -1,38 +1,37 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-'use strict';
+import { Pool } from 'pg';
+import { Sequelize } from 'sequelize';
+const dbDatabase: string = process.env.DB_DATABASE?.toString() || '';
+const dbUsername: string = process.env.DB_USERNAME?.toString() || '';
+const dbPassword: string = process.env.DB_PASSWORD?.toString() || '';
+const dbHost: string = process.env.DB_HOST?.toString() || '';
 
-import fs from 'fs';
-import path from 'path';
-const Sequelize = require('sequelize');
-import process from 'process';
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db: any = {};
-
-let sequelize: any;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-fs.readdirSync(__dirname)
-  .filter((file: string) => {
-    return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.ts';
-  })
-  .forEach((file: any) => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+const sequelize = new Sequelize(dbDatabase, dbUsername, dbPassword, {
+  host: dbHost,
+  dialect: 'postgres',
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+async function connect(): Promise<void> {
+  await sequelize
+    .sync()
+    .then(() => {
+      console.log(process.env.DB_DATABASE);
+
+      console.log('Database connection and synchronization established successfully!!!!');
+    })
+    .catch((error) => {
+      console.error('Error connecting to database:', error);
+    });
+}
+export const pool = new Pool({
+  user: dbUsername,
+  host: dbHost,
+  database: dbDatabase,
+  password: dbPassword,
+  port: 5432,
+});
+const db = {
+  sequelize: sequelize,
+  connect,
+};
 
 export default db;

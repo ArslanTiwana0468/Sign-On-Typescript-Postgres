@@ -1,5 +1,6 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
+// eslint-disable-next-line no-undef
 module.exports = {
   async up(queryInterface, DataTypes) {
     await queryInterface.createTable('Users', {
@@ -19,7 +20,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, DataTypes) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Users');
   }
 };

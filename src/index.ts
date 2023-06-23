@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import { sessionCreation } from './Utils/session';
 import route from './routes/index';
@@ -14,14 +16,7 @@ app.use(route);
 app.use(express.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs'); // Set EJS as the view engine
-db.sequelize
-  .sync()
-  .then(() => {
-    console.log('Database connection established successfully!!!!');
-    app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}`);
-    });
-  })
-  .catch((error: any) => {
-    console.error('Error connecting to database:', error);
-  });
+db.connect();
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
